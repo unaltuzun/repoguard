@@ -1,0 +1,114 @@
+[
+  {
+    "name": "eval()",
+    "pattern": "\\beval\\s*\\(",
+    "severity": "high",
+    "weight": 10,
+    "description": "Dynamic code execution via eval()"
+  },
+  {
+    "name": "Function() constructor",
+    "pattern": "\\bnew\\s+Function\\s*\\(",
+    "severity": "high",
+    "weight": 10,
+    "description": "Dynamic code execution via Function constructor"
+  },
+  {
+    "name": "Base64 long string",
+    "pattern": "[A-Za-z0-9+/=]{100,}",
+    "severity": "medium",
+    "weight": 8,
+    "description": "Long base64-encoded string (possible payload)"
+  },
+  {
+    "name": "atob() decode",
+    "pattern": "\\batob\\s*\\(",
+    "severity": "medium",
+    "weight": 5,
+    "description": "Base64 decoding in browser context"
+  },
+  {
+    "name": "Buffer.from base64",
+    "pattern": "Buffer\\.from\\s*\\([^)]*['\"]base64['\"]",
+    "severity": "medium",
+    "weight": 5,
+    "description": "Base64 decoding via Buffer"
+  },
+  {
+    "name": "Hex encoded payload",
+    "pattern": "(\\\\x[0-9a-f]{2}){10,}",
+    "severity": "high",
+    "weight": 10,
+    "description": "Hex-encoded payload string"
+  },
+  {
+    "name": "Obfuscated variable names",
+    "pattern": "_0x[0-9a-f]{4,}",
+    "severity": "high",
+    "weight": 12,
+    "description": "Obfuscated variable names (_0x pattern)"
+  },
+  {
+    "name": "Hardcoded IP address",
+    "pattern": "\\b(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\b",
+    "severity": "low",
+    "weight": 3,
+    "description": "Hardcoded IP address"
+  },
+  {
+    "name": "curl/wget in JS",
+    "pattern": "child_process.*(?:curl|wget)",
+    "severity": "critical",
+    "weight": 15,
+    "description": "Network download via child_process"
+  },
+  {
+    "name": "Reverse shell pattern",
+    "pattern": "/dev/tcp/|bash\\s+-i\\s+>&|\\bnc\\s+-[elp]",
+    "severity": "critical",
+    "weight": 20,
+    "description": "Reverse shell pattern"
+  },
+  {
+    "name": "Crypto miner keywords",
+    "pattern": "\\b(?:stratum\\+tcp|coinhive|cryptonight|xmrig|minergate)\\b",
+    "severity": "critical",
+    "weight": 20,
+    "description": "Cryptocurrency miner signature"
+  },
+  {
+    "name": "exec/spawn shell",
+    "pattern": "(?:exec|spawn)(?:Sync)?\\s*\\(\\s*['\"](?:sh|bash|cmd|powershell)",
+    "severity": "high",
+    "weight": 8,
+    "description": "Shell execution via exec/spawn"
+  },
+  {
+    "name": "process.env exfiltration",
+    "pattern": "(?:fetch|axios|http|request).*process\\.env",
+    "severity": "critical",
+    "weight": 15,
+    "description": "Environment variable exfiltration via network"
+  },
+  {
+    "name": "DNS exfiltration",
+    "pattern": "\\bdns\\.resolve\\b.*process\\.env",
+    "severity": "critical",
+    "weight": 15,
+    "description": "DNS-based data exfiltration"
+  },
+  {
+    "name": "Steganography keywords",
+    "pattern": "\\b(?:steganography|steg(?:hide|detect)|lsb[_-]?encode)\\b",
+    "severity": "medium",
+    "weight": 5,
+    "description": "Steganography-related code"
+  },
+  {
+    "name": "Keylogger pattern",
+    "pattern": "\\b(?:keylog|keystroke|onkeydown|onkeypress|onkeyup)\\b.*(?:send|post|fetch|ajax)",
+    "severity": "critical",
+    "weight": 20,
+    "description": "Possible keylogger with data exfiltration"
+  }
+]
