@@ -1,5 +1,10 @@
 # RepoGuard
 
+[![CI](https://github.com/unaltuzun/repoguard/actions/workflows/ci.yml/badge.svg)](https://github.com/unaltuzun/repoguard/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+
 Scan GitHub repos for trust scoring **before** you `git clone`.
 
 Every day, malicious actors clone popular repos, inject backdoors into install hooks, typosquat package names, and share them on social media. RepoGuard analyzes a repository through the GitHub API — without cloning — and gives you a **0-100 trust score**.
