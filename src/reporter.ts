@@ -92,7 +92,6 @@ export function printReport(result: ScanResult): void {
     if (!check) continue;
     const label = padRight(capitalize(name), 15);
     const scoreStr = colorScore(check.score);
-    const scorePad = padLeft(check.score.toString(), 3);
     const summaryText =
       check.summary.length > 30
         ? check.summary.slice(0, 30) + "..."
@@ -173,8 +172,4 @@ function capitalize(s: string): string {
 
 function padRight(s: string, n: number): string {
   return s.length >= n ? s : s + " ".repeat(n - s.length);
-}
-
-function padLeft(s: string, n: number): string {
-  return s.length >= n ? s : " ".repeat(n - s.length) + s;
 }

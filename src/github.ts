@@ -84,8 +84,8 @@ export async function fetchRepoInfo(target: RepoTarget): Promise<RepoInfo> {
     parentFullName: repoData.parent?.full_name ?? null,
     ownerType: ownerData?.type ?? "Unknown",
     ownerCreatedAt: ownerData?.created_at ?? repoData.created_at,
-    ownerFollowers: (ownerData as any)?.followers ?? 0,
-    ownerPublicRepos: (ownerData as any)?.public_repos ?? 0,
+    ownerFollowers: ownerData && "followers" in ownerData ? (ownerData.followers ?? 0) : 0,
+    ownerPublicRepos: ownerData && "public_repos" in ownerData ? (ownerData.public_repos ?? 0) : 0,
     contributors: contributorsCount,
     recentCommits: commits,
     fileTree: tree,
@@ -155,11 +155,13 @@ async function fetchFileTree(target: RepoTarget): Promise<FileEntry[]> {
       tree_sha: "HEAD",
       recursive: "true",
     });
-    return data.tree.map((item) => ({
-      path: item.path ?? "",
-      type: item.type as "blob" | "tree",
-      size: item.size,
-    }));
+    return data.tree
+      .filter((item) => item.type === "blob" || item.type === "tree")
+      .map((item) => ({
+        path: item.path ?? "",
+        type: item.type as "blob" | "tree",
+        size: item.size,
+      }));
   } catch {
     return [];
   }

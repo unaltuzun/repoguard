@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createRequire } from "module";
 import { Command } from "commander";
 import chalk from "chalk";
 import ora from "ora";
@@ -7,12 +8,20 @@ import { scan, VALID_CHECK_NAMES } from "../src/scanner.js";
 import { printReport, printJson } from "../src/reporter.js";
 import type { CheckName } from "../src/types.js";
 
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json") as { version: string };
+
+function getErrorMessage(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  return String(e);
+}
+
 const program = new Command();
 
 program
   .name("repoguard")
   .description("Scan GitHub repos for trust scoring before cloning")
-  .version("1.0.0");
+  .version(version);
 
 program
   .command("scan")
@@ -24,21 +33,19 @@ program
   )
   .option("--json", "Output results as JSON")
   .action(async (url: string, opts: { checks?: string; json?: boolean }) => {
-    // Parse URL
     let target;
     try {
       target = parseRepoUrl(url);
     } catch (e) {
-      console.error(chalk.red(`Error: ${(e as Error).message}`));
+      console.error(chalk.red(`Error: ${getErrorMessage(e)}`));
       process.exit(1);
     }
 
-    // Parse selected checks
     let selectedChecks: CheckName[] | undefined;
     if (opts.checks) {
-      const names = opts.checks.split(",").map((s) => s.trim()) as CheckName[];
+      const names = opts.checks.split(",").map((s) => s.trim());
       const invalid = names.filter(
-        (n) => !VALID_CHECK_NAMES.includes(n)
+        (n) => !VALID_CHECK_NAMES.includes(n as CheckName)
       );
       if (invalid.length > 0) {
         console.error(
@@ -49,7 +56,7 @@ program
         );
         process.exit(1);
       }
-      selectedChecks = names;
+      selectedChecks = names as CheckName[];
     }
 
     const isJson = !!opts.json;
@@ -84,13 +91,12 @@ program
         printReport(result);
       }
 
-      // Exit with non-zero if dangerous
       if (result.finalScore < 40) {
         process.exit(2);
       }
     } catch (e) {
-      if (spinner) spinner.fail(chalk.red(`Scan failed: ${(e as Error).message}`));
-      else console.error(`Scan failed: ${(e as Error).message}`);
+      if (spinner) spinner.fail(chalk.red(`Scan failed: ${getErrorMessage(e)}`));
+      else console.error(`Scan failed: ${getErrorMessage(e)}`);
       process.exit(1);
     }
   });

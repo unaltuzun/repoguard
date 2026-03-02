@@ -1,15 +1,38 @@
 {
   "name": "repoguard",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "CLI tool to scan GitHub repos for trust scoring before cloning",
   "type": "module",
+  "license": "MIT",
+  "author": "Ünal Tüzün",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unaltuzun/repoguard.git"
+  },
+  "keywords": [
+    "security",
+    "github",
+    "scanner",
+    "cli",
+    "supply-chain",
+    "typosquat",
+    "malware-detection"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "repoguard": "./dist/bin/repoguard.js"
   },
+  "files": [
+    "dist/",
+    "data/"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx bin/repoguard.ts",
-    "start": "node dist/bin/repoguard.js"
+    "start": "node dist/bin/repoguard.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "chalk": "^5.3.0",

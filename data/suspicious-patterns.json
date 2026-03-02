@@ -15,7 +15,7 @@
   },
   {
     "name": "Base64 long string",
-    "pattern": "[A-Za-z0-9+/=]{100,}",
+    "pattern": "[A-Za-z0-9+/=]{100,1000}",
     "severity": "medium",
     "weight": 8,
     "description": "Long base64-encoded string (possible payload)"

@@ -24,7 +24,6 @@
   { "name": "waaborern", "ecosystem": "npm", "reason": "Reverse shell payload" },
   { "name": "ctx", "ecosystem": "pip", "reason": "Compromised - environment variable theft (2022)" },
   { "name": "phpass", "ecosystem": "pip", "reason": "Typosquat - credential theft" },
-  { "name": "python-dateutil", "ecosystem": "pip", "reason": "Legitimate (false positive marker)" },
   { "name": "jeIlyfish", "ecosystem": "pip", "reason": "Typosquat of jellyfish (uses capital I instead of l)" },
   { "name": "python3-dateutil", "ecosystem": "pip", "reason": "Typosquat of python-dateutil" },
   { "name": "coloursama", "ecosystem": "pip", "reason": "Typosquat of colorama" },

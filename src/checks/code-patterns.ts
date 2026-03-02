@@ -125,7 +125,12 @@ export async function checkCodePatterns(
 
       const lines = content.split("\n");
       for (const sp of suspiciousPatterns) {
-        const regex = new RegExp(sp.pattern, "gi");
+        let regex: RegExp;
+        try {
+          regex = new RegExp(sp.pattern, "gi");
+        } catch {
+          continue; // Skip invalid patterns
+        }
         for (let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
           if (regex.test(lines[lineIdx])) {
             score -= sp.weight;
