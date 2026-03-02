@@ -42,6 +42,15 @@ const SCANNABLE_EXTENSIONS = new Set([
 const MAX_FILES_TO_SCAN = 20;
 const MAX_FILE_SIZE = 500_000; // 500KB
 
+// Directories that contain pattern definitions or test fixtures, not real code
+const IGNORED_PREFIXES = [
+  "data/",
+  "test/fixtures/",
+  "tests/fixtures/",
+  "__fixtures__/",
+  "sample-reports/",
+];
+
 // Prioritize files that are more likely to contain malicious code
 const HIGH_PRIORITY_FILES = new Set([
   "package.json", "setup.py", "setup.cfg", "Makefile",
@@ -81,7 +90,8 @@ export async function checkCodePatterns(
     (f) =>
       f.type === "blob" &&
       SCANNABLE_EXTENSIONS.has(getExtension(f.path)) &&
-      (f.size === undefined || f.size < MAX_FILE_SIZE)
+      (f.size === undefined || f.size < MAX_FILE_SIZE) &&
+      !IGNORED_PREFIXES.some((prefix) => f.path.startsWith(prefix))
   );
   const scannableFiles = prioritizeFiles(allScannable).slice(0, MAX_FILES_TO_SCAN);
 
